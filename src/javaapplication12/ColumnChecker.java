@@ -26,7 +26,7 @@ public class ColumnChecker implements Runnable {
     public void run() {
         Set<Integer> seen = new HashSet<>();
         for (int row = 0; row < 9; row++) {
-            int value = board.getValue(row, col);
+            int value = board.get(row, col);
 
             if (seen.contains(value)) {
                 report.addIssue("Duplicate value " + value +
