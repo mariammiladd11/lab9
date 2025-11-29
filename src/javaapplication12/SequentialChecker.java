@@ -8,8 +8,12 @@ package javaapplication12;
  *
  * @author Linae
  */
-public class SequentialChecker {
-    public VerificationResult validate(SudokuBoard board) {
+public class SequentialChecker extends SudukoChecker{
+    public SequentialChecker(SudokuBoard board) {
+        super(board); // call abstract class constructor
+    }
+    @Override
+    public VerificationResult validate() {
 
         VerificationResult result = new VerificationResult();
 

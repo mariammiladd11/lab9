@@ -9,6 +9,11 @@ package javaapplication12;
  * @author Linae
  */
 public abstract class SudukoChecker {
-    public abstract VerificationResult validate(SudokuBoard board);
+    protected final SudokuBoard board;
+
+    public SudukoChecker(SudokuBoard board) {
+        this.board = board;
+    }
+    public abstract VerificationResult validate();
     
 }
