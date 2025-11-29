@@ -31,7 +31,7 @@ public class BoxChecker implements Runnable {
 
         for (int r = startRow; r < startRow + 3; r++) {
             for (int c = startCol; c < startCol + 3; c++) {
-                int value = board.getValue(r, c);
+                int value = board.get(r, c);
 
                 if (seen.contains(value)) {
                     report.addIssue("Duplicate value " + value +
