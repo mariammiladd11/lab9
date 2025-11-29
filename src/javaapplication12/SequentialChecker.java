@@ -26,7 +26,7 @@ public class SequentialChecker {
         // 2. Check all columns
         // -------------------------
         for (int c = 0; c < 9; c++) {
-            int[] col = board.getColumn(c);
+            int[] col = board.getCol(c);
             var duplicates = DuplicateFinder.findDuplicates(col, 0, c);
             result.addColDuplicates(c, duplicates);
         }
