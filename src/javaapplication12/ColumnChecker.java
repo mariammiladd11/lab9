@@ -8,6 +8,32 @@ package javaapplication12;
  *
  * @author CYBER-TECH
  */
-public class ColumnChecker {
-    
+import java.util.HashSet;
+import java.util.Set;
+
+public class ColumnChecker implements Runnable {
+    private final SudokuBoard board;
+    private final int col;
+    private final DuplicateReport report;
+
+    public ColumnChecker(SudokuBoard board, int col, DuplicateReport report) {
+        this.board = board;
+        this.col = col;
+        this.report = report;
+    }
+
+    @Override
+    public void run() {
+        Set<Integer> seen = new HashSet<>();
+        for (int row = 0; row < 9; row++) {
+            int value = board.getValue(row, col);
+
+            if (seen.contains(value)) {
+                report.addIssue("Duplicate value " + value +
+                        " found in COLUMN " + col + " at row " + row);
+            }
+
+            seen.add(value);
+        }
+    }
 }

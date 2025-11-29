@@ -8,6 +8,31 @@ package javaapplication12;
  *
  * @author CYBER-TECH
  */
-public class RowChecker {
-    
+import java.util.HashSet;
+import java.util.Set;
+
+public class RowChecker implements Runnable {
+    private final SudokuBoard board;
+    private final int row;
+    private final DuplicateReport report;
+
+    public RowChecker(SudokuBoard board, int row, DuplicateReport report) {
+        this.board = board;
+        this.row = row;
+        this.report = report;
+    }
+
+    @Override
+    public void run() {
+        Set<Integer> seen = new HashSet<>();
+        for (int col = 0; col < 9; col++) {
+            int value = board.getValue(row, col);
+            if (seen.contains(value)) {
+                report.addIssue("Duplicate value " + value +
+                        " found in ROW " + row + " at column " + col);
+            }
+            seen.add(value);
+        }
+    }
 }
+
