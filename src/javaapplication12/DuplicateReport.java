@@ -4,10 +4,27 @@
  */
 package javaapplication12;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  *
  * @author CYBER-TECH
  */
+
 public class DuplicateReport {
-    
+    private final List<String> issues = Collections.synchronizedList(new ArrayList<>());
+
+    public void addIssue(String issue) {
+        issues.add(issue);
+    }
+
+    public List<String> getIssues() {
+        return issues;
+    }
+
+    public boolean hasIssues() {
+        return !issues.isEmpty();
+    }
 }
