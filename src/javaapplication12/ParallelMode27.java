@@ -15,48 +15,46 @@ public class ParallelMode27 extends SudukoChecker {
      public ParallelMode27(SudokuBoard board) {
         super(board);
     }
-  @Override
-    public VerificationResult validate() {
-        VerificationResult result = new VerificationResult();
+    public VerificationResult validate(SudokuBoard board) {
+        DuplicateReport report = new DuplicateReport();
+
         ExecutorService executor = Executors.newFixedThreadPool(27);
 
-        // 9 row checkers
+        // Rows
         for (int r = 0; r < 9; r++) {
-            int rowIndex = r;
+            final int row = r;
             executor.execute(() -> {
-                int[] row = board.getRow(rowIndex);
-                var duplicates = DuplicateFinder.findDuplicates(row, rowIndex, 0);
-                result.addRowDuplicates(rowIndex, duplicates);
+                report.addRowDuplicate(row, DuplicateFinder.findDuplicates(board.getRow(row), row, 0));
             });
         }
 
-        // 9 column checkers
+        // Columns
         for (int c = 0; c < 9; c++) {
-            int colIndex = c;
+            final int col = c;
             executor.execute(() -> {
-                int[] col = board.getCol(colIndex);
-                var duplicates = DuplicateFinder.findDuplicates(col, 0, colIndex);
-                result.addColDuplicates(colIndex, duplicates);
+                report.addColDuplicate(col, DuplicateFinder.findDuplicates(board.getCol(col), 0, col));
             });
         }
 
-        // 9 box checkers
+        // Boxes
         for (int b = 0; b < 9; b++) {
-            int boxIndex = b;
+            final int box = b;
             executor.execute(() -> {
-                int startRow = (boxIndex / 3) * 3;
-                int startCol = (boxIndex % 3) * 3;
-                int[] box = board.getBox(boxIndex);
-                var duplicates = DuplicateFinder.findDuplicates(box, startRow, startCol);
-                result.addBoxDuplicates(boxIndex, duplicates);
+                int startRow = (box / 3) * 3;
+                int startCol = (box % 3) * 3;
+                report.addBoxDuplicate(box, DuplicateFinder.findDuplicates(board.getBox(box), startRow, startCol));
             });
         }
 
         executor.shutdown();
         while (!executor.isTerminated()) {}
 
-        result.setValid(result.hasNoDuplicates());
-        return result;
-    }  
+        return report.toVerificationResult();
+    }
+
+    @Override
+    public VerificationResult validate() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
 

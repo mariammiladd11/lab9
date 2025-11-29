@@ -12,6 +12,8 @@ public class SequentialChecker extends SudukoChecker{
     public SequentialChecker(SudokuBoard board) {
         super(board); // call abstract class constructor
     }
+
+    
     @Override
     public VerificationResult validate() {
 

@@ -12,50 +12,50 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ParallelMode3 extends SudukoChecker {
-    
+
     public ParallelMode3(SudokuBoard board) {
         super(board);
     }
 
-    @Override
-    public VerificationResult validate() {
-        VerificationResult result = new VerificationResult();
+    
+    
+    public VerificationResult validate(SudokuBoard board) {
+        DuplicateReport report = new DuplicateReport();
+
         ExecutorService executor = Executors.newFixedThreadPool(3);
 
-        // Thread for rows
+        // Rows
         executor.execute(() -> {
             for (int r = 0; r < 9; r++) {
-                int[] row = board.getRow(r);
-                var duplicates = DuplicateFinder.findDuplicates(row, r, 0);
-                result.addRowDuplicates(r, duplicates);
+                report.addRowDuplicate(r, DuplicateFinder.findDuplicates(board.getRow(r), r, 0));
             }
         });
 
-        // Thread for columns
+        // Columns
         executor.execute(() -> {
             for (int c = 0; c < 9; c++) {
-                int[] col = board.getCol(c);
-                var duplicates = DuplicateFinder.findDuplicates(col, 0, c);
-                result.addColDuplicates(c, duplicates);
+                report.addColDuplicate(c, DuplicateFinder.findDuplicates(board.getCol(c), 0, c));
             }
         });
 
-        // Thread for boxes
+        // Boxes
         executor.execute(() -> {
             for (int b = 0; b < 9; b++) {
                 int startRow = (b / 3) * 3;
                 int startCol = (b % 3) * 3;
-                int[] box = board.getBox(b);
-                var duplicates = DuplicateFinder.findDuplicates(box, startRow, startCol);
-                result.addBoxDuplicates(b, duplicates);
+                report.addBoxDuplicate(b, DuplicateFinder.findDuplicates(board.getBox(b), startRow, startCol));
             }
         });
 
         executor.shutdown();
         while (!executor.isTerminated()) {}
 
-        result.setValid(result.hasNoDuplicates());
-        return result;
+        return report.toVerificationResult();
     }
 
+    @Override
+    public VerificationResult validate() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+   
 }
