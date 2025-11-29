@@ -11,19 +11,17 @@ package javaapplication12;
 public class CheckerFactory {
    
     
-    public static SudukoChecker createChecker(String mode) {
-        switch (mode.toLowerCase()) {
-            case "sequential":
-                return new SequentialChecker();
-
-            case "3-thread":
-                return new ParallelMode3();
-
-            case "27-thread":
-                return new ParallelMode27();
-
-            default:
-                throw new IllegalArgumentException("Unknown mode: " + mode);
-        }
+    public static SudukoChecker createChecker(String mode, SudokuBoard board) {
+    switch (mode.toLowerCase()) {
+        case "sequential":
+            return new SequentialChecker(board);
+        case "3-thread":
+            return new ParallelMode3(board);
+        case "27-thread":
+            return new ParallelMode27(board);
+        default:
+            throw new IllegalArgumentException("Unknown mode: " + mode);
     }
+}
+
 }

@@ -25,10 +25,9 @@ public class SudokuVerifier {
             SudokuBoard board = SudokuLoader.loadFromFile(filePath);
 
             
-            SudukoChecker checker = CheckerFactory.createChecker(mode);
-
-            
-            VerificationResult result = checker.validate(board);
+          
+SudukoChecker checker = CheckerFactory.createChecker("3-thread", board);
+VerificationResult result = checker.validate();
 
             
             System.out.print(OutputFormatter.format(result));

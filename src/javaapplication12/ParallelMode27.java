@@ -10,14 +10,17 @@ package javaapplication12;
  */
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class ParallelMode27 extends SudukoChecker {
-     public ParallelMode27(SudokuBoard board) {
+
+    public ParallelMode27(SudokuBoard board) {
         super(board);
     }
-    public VerificationResult validate(SudokuBoard board) {
-        DuplicateReport report = new DuplicateReport();
 
+    @Override
+    public VerificationResult validate() {
+        DuplicateReport report = new DuplicateReport();
         ExecutorService executor = Executors.newFixedThreadPool(27);
 
         // Rows
@@ -46,15 +49,15 @@ public class ParallelMode27 extends SudukoChecker {
             });
         }
 
+        // Wait for all threads to finish
         executor.shutdown();
-        while (!executor.isTerminated()) {}
+        try {
+            executor.awaitTermination(1, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return report.toVerificationResult();
-    }
-
-    @Override
-    public VerificationResult validate() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
 
