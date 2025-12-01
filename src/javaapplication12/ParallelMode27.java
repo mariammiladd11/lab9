@@ -23,7 +23,7 @@ public class ParallelMode27 extends SudukoChecker {
         DuplicateReport report = new DuplicateReport();
         ExecutorService executor = Executors.newFixedThreadPool(27);
 
-        // Rows
+        
         for (int r = 0; r < 9; r++) {
             final int row = r;
             executor.execute(() -> {
@@ -31,7 +31,7 @@ public class ParallelMode27 extends SudukoChecker {
             });
         }
 
-        // Columns
+        
         for (int c = 0; c < 9; c++) {
             final int col = c;
             executor.execute(() -> {
@@ -39,7 +39,7 @@ public class ParallelMode27 extends SudukoChecker {
             });
         }
 
-        // Boxes
+        
         for (int b = 0; b < 9; b++) {
             final int box = b;
             executor.execute(() -> {
@@ -49,7 +49,7 @@ public class ParallelMode27 extends SudukoChecker {
             });
         }
 
-        // Wait for all threads to finish
+        
         executor.shutdown();
         try {
             executor.awaitTermination(1, TimeUnit.MINUTES);

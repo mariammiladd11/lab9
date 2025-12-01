@@ -15,15 +15,13 @@ import java.util.Map;
 public class VerificationResult {
     private boolean valid = true;
 
-    // Maps: row → { value → list of coords }
+    
     private Map<Integer, Map<Integer, List<int[]>>> rowDuplicates = new HashMap<>();
     private Map<Integer, Map<Integer, List<int[]>>> colDuplicates = new HashMap<>();
     private Map<Integer, Map<Integer, List<int[]>>> boxDuplicates = new HashMap<>();
 
 
-    // -----------------------------
-    // Add Duplicate Results
-    // -----------------------------
+    
 
     public void addRowDuplicates(int rowIndex, Map<Integer, List<int[]>> duplicates) {
         if (!duplicates.isEmpty()) valid = false;
@@ -41,10 +39,7 @@ public class VerificationResult {
     }
 
 
-    // -----------------------------
-    // Getters
-    // -----------------------------
-
+    
     public boolean isValid() {
         return valid;
     }
@@ -67,9 +62,7 @@ public class VerificationResult {
 
 
 
-    // -----------------------------
-    // Helper
-    // -----------------------------
+    
     public boolean hasNoDuplicates() {
         return rowDuplicates.values().stream().allMatch(Map::isEmpty)
                 && colDuplicates.values().stream().allMatch(Map::isEmpty)

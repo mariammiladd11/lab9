@@ -10,10 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- *
- * @author CYBER-TECH
- */
+
 
 public class DuplicateReport {
     private final List<String> issues = Collections.synchronizedList(new ArrayList<>());
@@ -52,9 +49,7 @@ public class DuplicateReport {
         return !rowDuplicates.isEmpty() || !colDuplicates.isEmpty() || !boxDuplicates.isEmpty();
     }
 
-    // -----------------------------
-    // Convert to VerificationResult
-    // -----------------------------
+    
     public VerificationResult toVerificationResult() {
         VerificationResult result = new VerificationResult();
 
@@ -66,9 +61,7 @@ public class DuplicateReport {
         return result;
     }
 
-    // -----------------------------
-    // Getters for structured maps
-    // -----------------------------
+    
     public Map<Integer, Map<Integer, List<int[]>>> getRowDuplicates() {
         return rowDuplicates;
     }
